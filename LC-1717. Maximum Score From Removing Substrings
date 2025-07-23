@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int maximumGain(string s, int x, int y) {
+        int ch1='a', ch2='b';
+        int sc=0;
+        int cnt1=0,cnt2=0;
+
+        if(x<y)
+        {
+            swap(ch1,ch2);
+            swap(x,y);
+        }
+
+        for(char ch:s)
+        {
+            if(ch==ch1)
+            {
+                cnt1++;
+            }
+            else if(ch==ch2)
+            {
+                if(cnt1>0){
+                    cnt1--;
+                    sc+=x;
+                }
+                else
+                {
+                    cnt2++;
+                }
+            }
+            else{
+                sc+=min(cnt1,cnt2)*y;
+                cnt1=cnt2=0;
+            }
+        }
+        sc+=min(cnt1,cnt2)*y;
+        return sc;
+    }
+};
