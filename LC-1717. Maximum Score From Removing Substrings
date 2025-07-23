@@ -47,7 +47,6 @@ public:
 
 
 You are given a string s and two integers x and y:
-
 Remove all "ab" substrings to get x points per occurrence.
 
 Remove all "ba" substrings to get y points per occurrence.
