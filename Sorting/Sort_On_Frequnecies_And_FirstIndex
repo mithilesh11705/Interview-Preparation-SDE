@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool customCompare(int a, int b, unordered_map<int, int>& freq, unordered_map<int, int>& firstIndex) {
+    if (freq[a] != freq[b])
+        return freq[a] > freq[b];  // More frequency first
+    return firstIndex[a] < firstIndex[b];  // Earlier occurrence
+}
+
+vector<int> sortByFrequencyAndIndex(vector<int>& arr) {
+    unordered_map<int, int> freq;
+    unordered_map<int, int> firstIndex;
+
+    for (int i = 0; i < arr.size(); i++) {
+        freq[arr[i]]++;
+        if (firstIndex.find(arr[i]) == firstIndex.end())
+            firstIndex[arr[i]] = i;
+    }
+
+    stable_sort(arr.begin(), arr.end(), [&](int a, int b) {
+        if (freq[a] != freq[b])
+            return freq[a] > freq[b];
+        return firstIndex[a] < firstIndex[b];
+    });
+
+    return arr;
+}
+
+
+
+Custom comparator:
+
+🔸 What Is a Custom Comparator?
+A custom comparator is a function (or lambda or functor) that tells the STL how to compare two elements. It returns:
+
+true → if first element should come before the second
+
+false → otherwise
+
+✅ 1. Using a Lambda Comparator (Most Common in Practice)
+
+sort(arr.begin(), arr.end(), [](int a, int b) {
+    return a < b; // ascending
+});
+
+
+
+Example: Sort by absolute value
+
+sort(arr.begin(), arr.end(), [](int a, int b) {
+    return abs(a) < abs(b);
+});
+
+
+✅ 2. Using a Function Comparator
+bool compare(int a, int b) {
+    return a > b; // descending order
+}
+
+sort(arr.begin(), arr.end(), compare);

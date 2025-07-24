@@ -1,0 +1,15 @@
+void selectionSort(vector<int>& arr) {
+    int n = arr.size();
+
+    for (int i = 0; i < n - 1; ++i) {
+        // Find the iterator to the minimum element in the unsorted part
+        auto minIt = min_element(arr.begin() + i, arr.end());
+
+        // Swap the current element with the found minimum
+        iter_swap(arr.begin() + i, minIt);
+    }
+}
+
+
+
+Find minimum from remaining and swap it  with the the iterator value

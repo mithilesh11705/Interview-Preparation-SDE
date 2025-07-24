@@ -1,0 +1,86 @@
+DNF QuickSort: Code in C++
+
+
+
+void quickSortDNF(vector<int>& arr, int low, int high) {
+    if (low >= high) return;
+
+    int mid = low;
+    int pivot = arr[high];  // Choose pivot (can be randomized too)
+
+    int i = low, j = high;
+
+    while (mid <= j) {
+        if (arr[mid] < pivot)
+            swap(arr[i++], arr[mid++]);
+        else if (arr[mid] > pivot)
+            swap(arr[mid], arr[j--]);
+        else
+            mid++;
+    }
+
+    // Now arr[low..i-1] < pivot, arr[i..j] == pivot, arr[j+1..high] > pivot
+    quickSortDNF(arr, low, i - 1);
+    quickSortDNF(arr, j + 1, high);
+}
+
+
+
+
+
+
+📦 Example
+
+vector<int> arr = {4, 2, 5, 2, 2, 4, 5, 2};
+quickSortDNF(arr, 0, arr.size() - 1);
+// Output: 2 2 2 2 4 4 5 5
+🧠 When to Use DNF QuickSort?
+Use it when:
+
+Input contains many duplicates
+
+You're solving problems that require grouping of elements efficiently
+
+You want better average-case performance for OA (Online Assessment) and competitive coding
+
+📘 Situational OA/DSA Questions
+Here are some questions you can form based on DNF quicksort:
+
+1. Group the Colors (Leetcode 75)
+Given an array with values 0, 1, 2 representing colors (red, white, blue), sort them in-place in the order of 0s, 1s, and 2s.
+
+🧠 Apply: DNF algorithm (classic use-case)
+
+2. Sort an Array with Many Duplicates
+Given a list of N integers where many values are repeated, sort the array efficiently.
+
+🧠 Use: DNF-QuickSort improves performance over standard quicksort in this case.
+
+3. Partition Array Around Pivot
+Rearrange an array so that:
+
+All elements < pivot come first
+
+Then elements = pivot
+
+Then elements > pivot
+
+🧠 This is a direct Dutch National Flag application.
+
+4. OA-Style Framing Example
+Question:
+You are given an array of N integers where elements are in the range [1, 3] representing task priorities (1 = low, 2 = medium, 3 = high). You are required to reorder the tasks so that low priority tasks come first, followed by medium, then high, using O(1) extra space.
+
+🧠 Expected Solution: Dutch National Flag Algorithm
+
+📌 TL;DR
+Feature	DNF QuickSort
+Use when	Array has many duplicates
+Improves	Performance of quicksort in duplicate-heavy
+Complexity	Average: O(N log N), Worst: O(N²)
+Stability	❌ Not stable
+Memory	✅ In-place
+Enhances	QuickSort (3-way partitioning)
+
+Want me to generate a template problem with input/output and constraints based on this?
+Or visualize how the 3 pointers (i, mid, j) work step-by-step?

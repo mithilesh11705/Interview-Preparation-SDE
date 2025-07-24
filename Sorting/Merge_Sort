@@ -1,0 +1,22 @@
+STL based Merge sort
+
+
+
+void mergeSort(vector<int>& arr, int left, int right) {
+    if (right - left <= 1) return; // base case: one element
+
+    int mid = left + (right - left) / 2;
+
+    // Recursively sort left and right halves
+    mergeSort(arr, left, mid);
+    mergeSort(arr, mid, right);
+
+    // Merge sorted halves into a temp vector
+    vector<int> temp;
+    merge(arr.begin() + left, arr.begin() + mid,
+          arr.begin() + mid, arr.begin() + right,
+          back_inserter(temp));
+
+    // Copy merged result back into original array
+    copy(temp.begin(), temp.end(), arr.begin() + left);
+}
