@@ -1,0 +1,27 @@
+
+
+class Solution {
+public:
+    int maxSum(vector<int>& nums) {
+        int ms=0;
+
+        int n=nums.size();
+        set<int>s;
+        for(int x:nums)
+        {
+            if(x>0)
+            s.insert(x);
+        }
+        if(s.size()==0) return *max_element(nums.begin(),nums.end());
+
+        for(int x:s)
+        {
+            ms+=x;
+        }
+        return  ms;
+    }
+};
+
+
+
+Store all the unique elemnts and return their sum and if no then return the biggest negative element 
