@@ -1,0 +1,138 @@
+🧠 When is this Asked in OAs (Online Assessments)?
+This is a classic problem under:
+
+Divide and Conquer
+
+Merge Sort Variants
+
+Array-based problem solving
+
+Sorting + Counting combinations
+
+FAANG/Top Tech Companies may use it to test:
+
+Efficient thinking (O(n log n) over brute O(n²))
+
+STL mastery in C++
+
+Recursion with side computations
+
+Logic + implementation skill
+
+✅ Optimal Approach: Merge Sort
+We modify Merge Sort so that during the merge step, we also count inversions. The key observation is:
+
+If left[i] > right[j], then all elements from left[i] to end of left are also greater than right[j].
+
+🛠 STL-based C++ Code (Clean & Explained)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// Merge and count inversions
+long long merge(vector<int>& arr, vector<int>& temp, int left, int mid, int right) {
+    int i = left;     // Left subarray
+    int j = mid + 1;  // Right subarray
+    int k = left;     // Merged array
+    long long inv_count = 0;
+
+    while (i <= mid && j <= right) {
+        if (arr[i] <= arr[j]) {
+            temp[k++] = arr[i++];
+        } else {
+            temp[k++] = arr[j++];
+            inv_count += (mid - i + 1);  // Key step: all remaining in left are > arr[j]
+        }
+    }
+
+    // Copy remaining elements
+    while (i <= mid) temp[k++] = arr[i++];
+    while (j <= right) temp[k++] = arr[j++];
+
+    // Copy back to original array
+    for (int idx = left; idx <= right; idx++) {
+        arr[idx] = temp[idx];
+    }
+
+    return inv_count;
+}
+
+// Recursive Merge Sort with inversion count
+long long mergeSort(vector<int>& arr, vector<int>& temp, int left, int right) {
+    long long inv_count = 0;
+    if (left < right) {
+        int mid = (left + right) / 2;
+
+        inv_count += mergeSort(arr, temp, left, mid);
+        inv_count += mergeSort(arr, temp, mid + 1, right);
+
+        inv_count += merge(arr, temp, left, mid, right);
+    }
+    return inv_count;
+}
+
+long long countInversions(vector<int>& arr) {
+    vector<int> temp(arr.size());
+    return mergeSort(arr, temp, 0, arr.size() - 1);
+}
+
+int main() {
+    vector<int> arr = {2, 4, 1, 3, 5};
+    cout << "Inversion Count: " << countInversions(arr) << endl;
+    return 0;
+}
+🔍 Example Dry Run
+For array {2, 4, 1, 3, 5}
+
+Inversions are:
+
+(2,1), (4,1), (4,3) → total 3
+
+📌 STL Usage Highlights
+vector<int> used for dynamic array handling
+
+temp buffer prevents repeated allocation
+
+Efficient O(n log n) time
+
+No raw pointers — all modern C++ practices
+
+🧩 OA Framing / How It May Appear
+Problem Statement Example:
+Given an array of n integers, find the number of inversions in the array. An inversion is a pair (i, j) such that i < j and arr[i] > arr[j].
+
+Constraints:
+
+1 <= n <= 10^5
+
+0 <= arr[i] <= 10^9
+
+Input:
+
+ini
+Copy
+Edit
+n = 5
+arr = [2, 4, 1, 3, 5]
+Output:
+
+3
+🎯 How to Identify Inversion Count in a Problem
+Look for keywords like:
+
+"Count number of pairs such that i < j and arr[i] > arr[j]"
+
+"Disorder measure"
+
+"Sort with tracking of element comparison count"
+
+🧠 Interview Tips
+Brute force: Mention O(n^2) but say it's slow for large input.
+
+Use Divide & Conquer logic to pitch O(n log n) solution.
+
+Emphasize modifying merge sort to count across the two halves.
+
+Be clear about indices: left, mid, right.
+
+Explain why (mid - i + 1) inversions are counted.

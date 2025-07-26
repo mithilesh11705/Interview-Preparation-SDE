@@ -1,0 +1,121 @@
+The Activity Selection Problem is a classic Greedy Algorithm problem. It's one of the most commonly asked problems in interviews and online assessments, especially for roles involving algorithms, optimization, or scheduling.
+
+📌 Problem Statement
+Given n activities with their start and end times, select the maximum number of activities that don’t overlap. Only one activity can be performed at a time.
+
+📥 Input:
+You are given two arrays:
+
+start[] = {1, 3, 0, 5, 8, 5}
+
+end[] = {2, 4, 6, 7, 9, 9}
+
+🎯 Goal:
+Select the maximum number of non-overlapping activities.
+
+🧠 Core Idea: Greedy Strategy
+✅ Greedy Rule:
+Always select the activity with the earliest finish time that doesn't overlap with the previously selected one.
+
+Why?
+By choosing the activity that finishes earliest, we leave room for more activities afterward.
+
+✅ Identification (How to Spot in OA or Interviews)
+Look for:
+
+"Maximum number of tasks/jobs/activities..."
+
+"...without overlapping"
+
+Start-end time pairs
+
+"Schedule X with max Y"
+
+Optimization + timing
+
+Real-World Analogies:
+Scheduling meetings in one room
+
+Choosing TV shows to watch
+
+CPU job scheduling (non-preemptive)
+
+✅ C++ Code Using Greedy Approach
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Activity {
+public:
+    int start, end;
+    Activity(int s, int e) {
+        start = s;
+        end = e;
+    }
+};
+
+// Comparator to sort activities by end time
+bool compare(Activity a, Activity b) {
+    return a.end < b.end;
+}
+
+int activitySelection(vector<int>& start, vector<int>& end) {
+    int n = start.size();
+
+    vector<Activity> activities;
+    for (int i = 0; i < n; i++) {
+        activities.push_back(Activity(start[i], end[i]));
+    }
+
+    // Sort activities based on finish time
+    sort(activities.begin(), activities.end(), compare);
+
+    int count = 1; // Always pick the first activity
+    int last_end = activities[0].end;
+
+    for (int i = 1; i < n; i++) {
+        if (activities[i].start >= last_end) {
+            count++;
+            last_end = activities[i].end;
+        }
+    }
+
+    return count;
+}
+
+int main() {
+    vector<int> start = {1, 3, 0, 5, 8, 5};
+    vector<int> end   = {2, 4, 6, 7, 9, 9};
+
+    cout << "Maximum number of activities: "
+         << activitySelection(start, end) << endl;
+
+    return 0;
+}
+📊 Output
+
+
+Maximum number of activities: 4
+Explanation:
+The selected activities (0-based indices):
+
+Activity 0: (1, 2)
+
+Activity 1: (3, 4)
+
+Activity 3: (5, 7)
+
+Activity 4: (8, 9)
+
+⏱ Time & Space Complexity
+Metric	Value
+Time	O(n log n) (for sorting)
+Space	O(n)
+
+✅ OA/Interview Checklist
+Asked As	Topic Covered	Strategy
+Max non-overlapping intervals	Greedy Scheduling	Sort by end[]
+Room Scheduling	Optimization	Pick earliest ending
+Meeting scheduling	Interval management	Greedy

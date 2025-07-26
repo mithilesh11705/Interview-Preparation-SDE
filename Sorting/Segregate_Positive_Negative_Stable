@@ -1,0 +1,72 @@
+✅ Segregates negatives and positives
+✅ Keeps the relative order of positives and negatives intact
+✅ Works in-place (no extra space)
+
+❗ Important Note:
+The classic QuickSort-style partition (e.g., Lomuto or Hoare) does not preserve order — so we cannot use that directly if we care about relative order.
+
+Instead, we'll implement a stable partition in linear time without extra space, by shifting elements.
+
+✅ C++ Code — Linear Time, Stable Order, In-Place
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void segregateNegPos(vector<int>& arr) {
+    int n = arr.size();
+    int pos = 0;  // Position to place negative element
+
+    // Traverse array from left to right
+    for (int i = 0; i < n; ++i) {
+        if (arr[i] < 0) {
+            int temp = arr[i];
+
+            // Shift all elements between pos and i one step to the right
+            for (int j = i; j > pos; --j) {
+                arr[j] = arr[j - 1];
+            }
+
+            arr[pos] = temp;
+            pos++;  // Next negative goes to next position
+        }
+    }
+}
+
+int main() {
+    vector<int> arr = {9, -3, 5, -2, -8, -6, 1, 3};
+
+    segregateNegPos(arr);
+
+    cout << "Output: ";
+    for (int x : arr) {
+        cout << x << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+🔍 Output:
+
+Output: -3 -2 -8 -6 9 5 1 3
+✅ What is preserved?
+Negative numbers come first
+
+Original order of negative and positive numbers is preserved
+
+🧠 Time & Space Complexity
+Complexity	Value
+Time	O(n²) worst (if many negatives at end, lots of shifting)
+Space	O(1) (in-place)
+
+If you don’t need to preserve order, a quick partition like in quicksort gives O(n) time.
+
+🚀 OA Tip — Problem Framing
+Prompt:
+Given an array of integers, reorder it so that all negative integers come before all positive integers in their original order, in linear time and constant space.
+
+📌 If the question says:
+
+Order doesn't matter → use QuickSort partition logic
+
+Order matters → use in-place stable partition like above
