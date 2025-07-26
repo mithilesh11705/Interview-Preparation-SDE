@@ -1,0 +1,71 @@
+using HeapNode = tuple<int, int, int>;
+
+struct Compare {
+    bool operator()(const HeapNode& a, const HeapNode& b) {
+        return get<0>(a) > get<0>(b);  // Min-heap based on value
+    }
+};
+
+vector<int> mergeMSortedLists(const vector<vector<int>>& lists) {
+    priority_queue<HeapNode, vector<HeapNode>, Compare> minHeap;
+    vector<int> merged;
+
+    // Initialize heap with the first element of each list
+    for (int i = 0; i < lists.size(); ++i) {
+        if (!lists[i].empty()) {
+            minHeap.emplace(lists[i][0], i, 0);
+        }
+    }
+
+    // Extract the smallest element and push the next one from the same list
+    while (!minHeap.empty()) {
+        auto [val, listIdx, elemIdx] = minHeap.top();
+        minHeap.pop();
+
+        merged.push_back(val);
+
+        // If there's a next element in the same list, add it to the heap
+        if (elemIdx + 1 < lists[listIdx].size()) {
+            minHeap.emplace(lists[listIdx][elemIdx + 1], listIdx, elemIdx + 1);
+        }
+    }
+
+    return merged;
+}
+
+
+
+Each list is already sorted. The smallest overall element will always be at the front of one of the lists.
+So we use a Min-Heap to:
+
+Always extract the smallest next element among all list fronts.
+
+Push the next element from that list into the heap.
+
+⚙️ Data Structure Design
+To track from which list and index an element came, we push triplets in the heap:
+
+(min_value, list_index, element_index)
+This lets us:
+
+Extract the smallest element,
+
+Know which list it came from,
+
+Push the next element from that list.
+
+Time: O(N log M)
+
+N = total number of elements across all lists.
+
+M = number of lists.
+
+Space: O(M) for the heap + O(N) for result
+
+🔍 Real-World Use Cases
+Merging multiple sorted log files
+
+Real-time streaming feeds merging
+
+External sorting (when data doesn’t fit in memory)
+
