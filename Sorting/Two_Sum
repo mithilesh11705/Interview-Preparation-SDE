@@ -1,0 +1,41 @@
+
+Your Goal	Use This
+nums is sorted	      Two-pointer approach (your logic, fixed above)
+nums is not sorted	   Use hash map
+
+
+Sorted:Two pointer
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int l = 0, r = nums.size() - 1;
+        while (l < r) {
+            int sum = nums[l] + nums[r];
+            if (sum == target)
+                return {l, r}; // Return immediately when found
+            else if (sum < target)
+                l++;
+            else
+                r--;
+        }
+        return {}; // If no solution found
+    }
+};
+
+
+
+Unsorted: Hash map
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> indexMap; // value -> index
+        for (int i = 0; i < nums.size(); ++i) {
+            int complement = target - nums[i];
+            if (indexMap.count(complement)) {
+                return {indexMap[complement], i};
+            }
+            indexMap[nums[i]] = i;
+        }
+        return {}; // If no solution found
+    }
+};
