@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int countHillValley(vector<int>& nums) {
+               vector<int> k;
+
+        k.push_back(nums[0]);
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] != nums[i - 1]) {
+                k.push_back(nums[i]);
+            }
+        }
+
+        int r = 0;
+        for (int i = 1; i < k.size() - 1; i++) {
+            if ((k[i] > k[i - 1] && k[i] > k[i + 1]) || 
+                (k[i] < k[i - 1] && k[i] < k[i + 1])) {
+                r++;
+            }
+        }
+
+        return r;
+    }
+}; 
+
+
+
+The dupilcate values don't add anything to the sum;
