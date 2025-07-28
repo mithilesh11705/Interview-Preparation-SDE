@@ -8,6 +8,7 @@ public:
             if (nums[i] != nums[i - 1]) {
                 k.push_back(nums[i]);
             }
+            
         }
 
         int r = 0;
