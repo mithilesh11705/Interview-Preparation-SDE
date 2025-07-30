@@ -55,7 +55,7 @@ The tabulation version is :
 
     for (int i = 1; i <= n; i++)
     {
-        for (int j = 1; j <= W; j++)
+        for (int j = 0; j <= W; j++)
         {
             if (wt[i - 1] <= j)
                 dp[i][j] = max(val[i - 1] + dp[i - 1][j - wt[i - 1]], dp[i - 1][j]);
