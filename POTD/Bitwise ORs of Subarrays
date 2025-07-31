@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int subarrayBitwiseORs(vector<int>& arr) {
+        unordered_set<int> res;   // stores all distinct ORs
+        set<int> cur;             // stores ORs ending at current index
+
+        for (int a : arr) {
+            set<int> next;
+            next.insert(a);       // subarray of length 1
+
+            for (int x : cur) {
+                next.insert(x | a); // OR with previous ORs
+            }
+
+            cur = next;
+
+            for (int x : cur) {
+                res.insert(x);
+            }
+        }
+
+        return res.size();
+    }
+};
