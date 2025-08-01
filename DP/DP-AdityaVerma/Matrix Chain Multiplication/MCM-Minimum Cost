@@ -1,0 +1,27 @@
+class Solution {
+  public:
+  
+    int solve(int i,int j,vector<vector<int>>&dp,vector<int>&arr)
+    {
+        if(i>=j)
+        return 0;
+        
+        if(dp[i][j]!=-1)
+        return dp[i][j];
+            
+            int m=INT_MAX;
+        for(int k=i;k<=j-1;k++)
+        {
+            int t=solve(i,k,dp,arr)+solve(k+1,j,dp,arr)+(arr[i-1]*arr[k]*arr[j]);
+            
+            m=min(m,t);
+        }
+        return dp[i][j]=m;
+    }
+    int matrixMultiplication(vector<int> &arr) {
+        // code here
+        int n=arr.size();
+        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+        return solve(1,n-1,dp,arr);
+    }
+};

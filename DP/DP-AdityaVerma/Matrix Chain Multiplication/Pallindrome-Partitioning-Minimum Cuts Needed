@@ -1,0 +1,35 @@
+// User function Template for C++
+
+class Solution {
+  public:
+   bool isPalindrome(int i, int j, string &s) {
+        while(i < j) {
+            if(s[i] != s[j]) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+
+    int solve(int i, int j, vector<vector<int>>& dp, string &s) {
+        if(i >= j || isPalindrome(i, j, s)) return 0;
+
+        if(dp[i][j] != -1) return dp[i][j];
+
+        int minCuts = INT_MAX;
+        for(int k = i; k < j; k++) {
+            if(isPalindrome(i, k, s)) {
+                int cuts = 1 + solve(k+1, j, dp, s);
+                minCuts = min(minCuts, cuts);
+            }
+        }
+        return dp[i][j] = minCuts;
+    }
+
+    int palPartition(string &s) {
+        
+        int n = s.size();
+        vector<vector<int>> dp(n, vector<int>(n, -1));
+        return solve(0, n-1, dp, s);
+    }
+};
