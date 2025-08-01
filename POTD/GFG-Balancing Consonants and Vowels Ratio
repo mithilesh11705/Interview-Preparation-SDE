@@ -1,0 +1,41 @@
+class Solution {
+  public:
+    bool isVowel(char c) {
+        return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
+    }
+
+    int countBalanced(vector<string>& arr) {
+        int n = arr.size();
+
+        unordered_map<int, int> mpp;
+        mpp[0] = 1;
+
+        int prefix = 0;
+        int res = 0;
+
+        for (int i = 0; i < n; i++) {
+            int v = 0, c = 0;
+            string s = arr[i];
+
+            for (char x : s) {
+                if (isVowel(x)) v++;
+                else c++;
+            }
+
+            int diff = v - c;
+            prefix += diff;
+
+            if (mpp.find(prefix) != mpp.end()) {
+                res += mpp[prefix];
+            }
+
+            mpp[prefix]++;
+        }
+
+        return res;
+    }
+};
+
+
+
+Prefix Sum + Hashmap Appraoch
