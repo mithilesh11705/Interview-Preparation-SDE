@@ -1,0 +1,70 @@
+class Solution {
+public:
+    int solve(int e, int f, vector<vector<int>>& dp) {
+        if (f == 0 || f == 1)
+            return f;
+        if (e == 1)
+            return f;
+        if (dp[e][f] != -1)
+            return dp[e][f];
+
+        int low = 1, high = f, res = INT_MAX;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            int left = dp[e - 1][mid - 1] != -1 ? dp[e - 1][mid - 1] : solve(e - 1, mid - 1, dp);
+            dp[e - 1][mid - 1] = left;
+
+            int right = dp[e][f - mid] != -1 ? dp[e][f - mid] : solve(e, f - mid, dp);
+            dp[e][f - mid] = right;
+
+            int temp = 1 + max(left, right);
+            res = min(res, temp);
+
+            
+            if (left < right)
+                low = mid + 1;  
+            else
+                high = mid - 1; 
+        }
+
+        return dp[e][f] = res;
+    }
+
+    int superEggDrop(int k, int n) {
+        vector<vector<int>> dp(k + 1, vector<int>(n + 1, -1));
+        return solve(k, n, dp);
+    }
+};
+
+
+
+Optimised solution using binary search and memoization.
+
+
+
+
+
+class Solution {
+  public:
+
+    // Function to find minimum number of attempts needed in
+    // order to find the critical floor.
+    int eggDrop(int n, int k) {
+        // code here
+         vector<vector<int>> dp(k + 1, vector<int>(n + 1, 0));
+        int moves = 0;
+
+        // keep testing more moves until we can cover at least 'k' floors
+        while (dp[moves][n] < k) {
+            moves++;
+            for (int eggs = 1; eggs <= n; eggs++) {
+                dp[moves][eggs] = dp[moves - 1][eggs - 1] + dp[moves - 1][eggs] + 1;
+            }
+        }
+        return moves;
+     }
+};
+
+GFG Solution for Egg Dropping Puzzle using Dynamic Programming
