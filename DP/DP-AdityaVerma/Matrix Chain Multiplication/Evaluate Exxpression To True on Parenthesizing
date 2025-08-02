@@ -1,0 +1,56 @@
+// User function Template for C++
+class Solution {
+  public:
+       unordered_map<string,int> mp;
+
+    int solve(int i, int j, string &s, bool isTrue) {
+        if (i > j) return 0;
+
+        if (i == j) {
+            if (isTrue) return s[i] == 'T';
+            else return s[i] == 'F';
+        }
+
+        string l = to_string(i) + "_" + to_string(j) + "_" + (isTrue ? "T" : "F");
+
+        if (mp.find(l) != mp.end()) return mp[l];
+
+        int ans = 0;
+        for (int k = i + 1; k <= j - 1; k += 2) {
+            int lt = solve(i, k - 1, s, true);
+            int lf = solve(i, k - 1, s, false);
+            int rt = solve(k + 1, j, s, true);
+            int rf = solve(k + 1, j, s, false);
+
+            if (s[k] == '&') {
+                if (isTrue)
+                    ans += lt * rt;
+                else
+                    ans += lf * rf + lt * rf + lf * rt;
+            }
+            else if (s[k] == '|') {
+                if (isTrue)
+                    ans += lt * rt + lt * rf + lf * rt;
+                else
+                    ans += lf * rf;
+            }
+            else if (s[k] == '^') {
+                if (isTrue)
+                    ans += lt * rf + lf * rt;
+                else
+                    ans += lt * rt + lf * rf;
+            }
+        }
+
+        return mp[l] = ans;
+    }
+
+    int countWays(string &s) {
+        mp.clear();
+        int n = s.size();
+        return solve(0, n - 1, s, true);
+    }
+};
+
+
+Very Important : Nice Question to understand how to use memoization in recursion
