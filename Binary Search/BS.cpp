@@ -26,3 +26,32 @@ int main() {
     cout << "Element not found!" << endl;
     return 0;
 }
+
+
+
+
+
+class Solution {
+  public:
+    int binarysearch(vector<int> &arr, int k) {
+        // code here
+         int st = 0, end = arr.size() - 1;
+    int res = -1;
+    while (st <= end) {
+        int mid = st + (end - st) / 2;
+        if (arr[mid] == k) {
+            res = mid;       // Save index
+            end = mid - 1;   // Keep searching left
+        }
+        else if (arr[mid] > k)
+            end = mid - 1;
+        else
+            st = mid + 1;
+    }
+    return res;
+
+    }
+};
+
+
+// For duplicated values, this code finds the first occurrence of the element in a sorted array.
