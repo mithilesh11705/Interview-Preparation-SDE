@@ -1,0 +1,50 @@
+class Solution {
+  public:
+    int countFreq(vector<int>& arr, int target) {
+        // code here
+        int n=arr.size();
+        
+        vector<int>ans;
+        int low=0;
+        int high=n-1;
+        int fo=-1;
+        int lo=-1;
+        while(low<=high)
+        {
+            int m=low+(high-low)/2;
+            
+            if(arr[m]==target)
+            {
+             fo=m;
+             high=m-1;
+            }
+            else if(arr[m]>target)
+            high=m-1;
+            else
+            low=m+1;
+            
+        }
+        ans.push_back(fo);
+        low=0;
+        high=n-1;
+        while(low<=high)
+        {
+            int m=low+(high-low)/2;
+            
+            if(arr[m]==target)
+            {
+             lo=m;
+             low=m+1;
+            }
+            else if(arr[m]>target)
+            high=m-1;
+            else
+            low=m+1;
+            
+        }
+        ans.push_back(lo);
+        if(fo<0) return 0;
+        return (lo-fo+1);
+    }
+};
+
