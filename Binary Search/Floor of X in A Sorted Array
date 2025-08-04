@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    int findFloor(vector<int>& arr, int x) {
+        int s = 0;
+        int e = arr.size() - 1;
+        int res = -1;
+
+        while (s <= e) {
+            int m = s + (e - s) / 2;
+
+            if (arr[m] == x) {
+                res=m;
+                s=m+1;
+            }
+            else if (arr[m] < x) {
+                res = m;    // potential floor found
+                s = m + 1;
+            } else {
+                e = m - 1;
+            }
+        }
+        return res; // return index of floor, or -1 if none exists
+    }
+};
+
+
+Note: In case of multiple occurrences of ceil of x, return the index of the last occurrence.
