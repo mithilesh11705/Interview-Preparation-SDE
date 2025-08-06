@@ -32,3 +32,6 @@ int main()
     BS(arr,l,h,x);
     return 0;
 }
+
+
+this is how we solve the problem of finding the position of an element in an infinite sorted array.
