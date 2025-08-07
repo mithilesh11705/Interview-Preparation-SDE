@@ -1,0 +1,27 @@
+def max_pair_sum(vals):
+    vals.sort()
+    return (vals[3] - vals[0]) + (vals[2] - vals[1])
+
+def solve():
+    n, k = map(int, input().split())
+    a = list(map(int, input().split()))
+    b = list(map(int, input().split()))
+    
+    total = sum(abs(ai - bi) for ai, bi in zip(a, b))
+    
+    for _ in range(k):
+        best_total = float('inf')
+        for i in range(n):
+            for j in range(i+1, n):
+                vals = [a[i], a[j], b[i], b[j]]
+                current_local = abs(a[i] - b[i]) + abs(a[j] - b[j])
+                max_local = max_pair_sum(vals)
+                new_total = total - current_local + max_local
+                if new_total < best_total:
+                    best_total = new_total
+        total = best_total  
+    return total
+
+t = int(input())
+for _ in range(t):
+    print(solve())
