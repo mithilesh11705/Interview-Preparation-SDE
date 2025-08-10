@@ -1,0 +1,40 @@
+class Solution
+{
+public:
+    int longestKSubstr(string &s, int k)
+    {
+        // code here
+        int n = s.size();
+        int i = 0, j = 0;
+        unordered_map<char, int> p;
+        int res = -1;
+        while (j < n)
+        {
+            p[s[j]]++;
+
+            if (p.size() < k)
+                j++;
+            else if (p.size() == k)
+            {
+                res = max(res, j - i + 1);
+                j++;
+            }
+            else if (p.size() > k)
+            {
+                while (p.size() > k)
+                {
+                    if (p.find(s[i]) != p.end())
+                    {
+                        p[s[i]]--;
+                        if (p[s[i]] == 0)
+                            p.erase(s[i]);
+                    }
+
+                    i++;
+                }
+                j++;
+            }
+        }
+        return res;
+    }
+};
