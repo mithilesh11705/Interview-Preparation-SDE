@@ -1,0 +1,78 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int longestSubarray(vector<int>& arr, int k) {
+        unordered_map<long, int> mp; // prefix sum → first index
+        long sum = 0;
+        int res = 0;
+
+        for (int j = 0; j < arr.size(); j++) {
+            sum += arr[j];
+
+            if (sum == k) {
+                res = max(res, j + 1);
+            }
+
+            if (mp.find(sum - k) != mp.end()) {
+                res = max(res, j - mp[sum - k]);
+            }
+
+        
+            if (mp.find(sum) == mp.end()) {
+                mp[sum] = j;
+            }
+        }
+        return res;
+    }
+};
+
+
+If two prefix sums differ by k, then the subarray between them sums to k.
+
+Formally:
+
+
+sum[j] - sum[i] = k
+Rearrange:
+
+
+sum[i] = sum[j] - k
+That means:
+
+If we are at index j and our current sum is sum[j]
+
+And we have seen sum[j] - k before at some index i
+
+Then the subarray (i+1 .. j) has sum exactly k.
+
+3️⃣ Why it works
+Example:
+arr = [1, -1, 5, -2, 3], k = 3
+
+Prefix sums:
+
+j	arr[j]	sum	sum-k
+0	1	1	-2
+1	-1	0	-3
+2	5	5	2
+3	-2	3	0
+4	3	6	3
+
+At j = 3, sum = 3, sum - k = 0.
+We saw 0 before at index 1.
+So subarray (2 .. 3) = [5, -2] sums to 3.
+
+At j = 4, sum = 6, sum - k = 3.
+We saw 3 before at index 3.
+So subarray (4 .. 4) = [3] sums to 3.
+
+4️⃣ Summary
+We find sum - k because:
+
+sum is the sum up to current index.
+
+sum - k tells us what prefix sum we needed earlier so that the gap between then and now equals k.
+
+Storing these earlier prefix sums in a map lets us find such subarrays in O(1) time per step.

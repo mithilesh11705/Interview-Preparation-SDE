@@ -12,7 +12,7 @@ class Solution {
             {
                 if(i==0)
                 t[i][j]=0;
-                if(j==0)Q
+                if(j==0)
                 t[i][j]=1;
                 
             }
