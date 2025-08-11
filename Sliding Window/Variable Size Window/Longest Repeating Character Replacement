@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int n=s.size();
+        unordered_map<char,int>mp;
+        int res=0,i=0;
+        int maxfreq=INT_MIN;
+        for(int j=0;j<n;j++)
+        {
+            mp[s[j]]++;
+            maxfreq=max(maxfreq,mp[s[j]]);
+            if((j-i+1)-maxfreq>k)
+            {
+                mp[s[i]]--;
+                i++;
+            }
+
+            res=max(res,j-i+1);
+        }
+        return res;
+    }
+};
+
+
+
+Same sliding window logic and keep a hashmap to count frequencies of characters.
+The condition checks if the current window size minus the maximum frequency of any character in that window exceedsk. If it does, it means we can't replace the characters in the window with the same character within the allowed replacements, so we shrink the window from the left by incrementing `i` and decrementing the count of the character at `s[i]`. The result is updated with the maximum length of valid windows found during the iteration.
