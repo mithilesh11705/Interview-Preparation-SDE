@@ -1,0 +1,50 @@
+class Solution {
+  public:
+    int countSubarrays(vector<int>& arr, int k) 
+        // code here
+        {
+            return atMost(arr,k)-atMost(arr,k-1);
+        }
+        
+        
+       int atMost(vector<int>& nums, int k) {
+        int i = 0, count = 0, odd = 0;
+        for (int j = 0; j < nums.size(); j++) {
+            if (nums[j] % 2 != 0) odd++;
+            while (odd > k) {
+                if (nums[i] % 2 != 0) odd--;
+                i++;
+            }
+            count += (j - i + 1);
+        }
+        return count;
+    }
+};
+
+
+Here we applied the logic of -  subarrays with ≤ k odds - subarrays with ≤ k-1 odds
+
+
+
+
+Another logic is: Hashmap and prefix sum;
+
+
+
+class Solution {
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        unordered_map<int,int> freq;
+        freq[0] = 1;  // base case
+        int odd = 0, count = 0;
+
+        for (int num : nums) {
+            if (num % 2 != 0) odd++;
+            if (freq.find(odd - k) != freq.end()) {
+                count += freq[odd - k];
+            }
+            freq[odd]++;
+        }
+        return count;
+    }
+};
