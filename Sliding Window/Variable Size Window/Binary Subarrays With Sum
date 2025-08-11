@@ -1,0 +1,20 @@
+Any question regarding subarray and substring can be solved using hashmap and prefix sum and sliding window
+
+
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        unordered_map<int, int> freq;
+        freq[0] = 1; 
+        int s = 0, count = 0;
+
+        for (int num : nums) {
+            s += num;
+            if (freq.find(s - goal) != freq.end()) {
+                count += freq[s - goal]; 
+            }
+            freq[s]++;
+        }
+        return count;
+    }
+};
