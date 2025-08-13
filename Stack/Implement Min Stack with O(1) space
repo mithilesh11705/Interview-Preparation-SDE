@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+    stack<int> s;
+    int minEle;
+
+public:
+    Solution() {
+        // initialize stack and min element
+        while (!s.empty()) s.pop();
+        minEle = INT_MAX;
+    }
+
+    // Add an element to the top of Stack
+    void push(int x) {
+        if (s.empty()) {
+            s.push(x);
+            minEle = x;
+        } else {
+            if (x >= minEle) {
+                s.push(x);
+            } else { // new min
+                s.push(2 * x - minEle);
+                minEle = x;
+            }
+        }
+    }
+
+    // Remove the top element from the Stack
+    void pop() {
+        if (s.empty())
+            return; // can't return -1 because it's void
+
+        if (s.top() >= minEle) {
+            s.pop();
+        } else { // encoded value
+            minEle = 2 * minEle - s.top();
+            s.pop();
+        }
+    }
+
+    // Returns top element of the Stack
+    int peek() {
+        if (s.empty())
+            return -1;
+
+        if (s.top() >= minEle)
+            return s.top();
+        else
+            return minEle;
+    }
+
+    // Finds minimum element of Stack
+    int getMin() {
+        if (s.empty())
+            return -1;
+        return minEle;
+    }
+};
+ 
+
+
+Important Interview Wise
