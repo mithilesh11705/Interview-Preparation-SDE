@@ -21,6 +21,6 @@ public:
             cost += f + s;
             pq.push(f + s);
         }
-        return cost;
+        return cost; 
     }
 }; 
