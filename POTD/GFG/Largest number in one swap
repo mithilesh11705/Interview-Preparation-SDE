@@ -1,0 +1,29 @@
+class Solution {
+  public:
+    string largestSwap(string &s) {
+       
+
+        //Find the maximum digit and its index
+        int m=INT_MIN;int c=-1;
+        for(int i=0;i<s.length();i++)
+        {
+            int n=s[i]-'0';
+            if(n>=m)
+            {
+                m=n;
+                c=i;
+            }
+        }
+
+        //find the smallest digit before the max digit and swap
+        for (int i = 0; i < c; i++) {
+            int k = s[i] - '0';
+            if (k < m) {
+                swap(s[i], s[c]);  
+                break;
+            }
+        }
+        return s;
+    }
+};
+
