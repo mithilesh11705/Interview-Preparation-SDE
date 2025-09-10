@@ -1,0 +1,42 @@
+class Solution {
+public:
+    bool check(int f1, int f2, vector<vector<int>>& l) {
+       
+        unordered_set<int> user1Langs(l[f1 - 1].begin(), l[f1 - 1].end());
+        for (int lang : l[f2 - 1]) {
+            if (user1Langs.count(lang)) {
+                return false; 
+            }
+        }
+        return true; 
+    }
+
+    int minimumTeachings(int n, vector<vector<int>>& languages, vector<vector<int>>& friendships) {
+        unordered_set<int> usersToTeach;
+        
+
+        for (auto& friendship : friendships) {
+            int u = friendship[0], v = friendship[1];
+            if (check(u, v, languages)) {
+                usersToTeach.insert(u);
+                usersToTeach.insert(v);
+            }
+        }
+        
+ 
+        vector<int> teachCount(n + 1, 0);
+        for (int user : usersToTeach) {
+            for (int lang : languages[user - 1]) {
+                teachCount[lang]++;
+            }
+        }
+        
+    
+        int minTeach = usersToTeach.size();
+        for (int lang = 1; lang <= n; lang++) {
+            minTeach = min(minTeach, (int)usersToTeach.size() - teachCount[lang]);
+        }
+
+        return minTeach;
+    }
+};
