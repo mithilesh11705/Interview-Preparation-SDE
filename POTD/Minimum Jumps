@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int minJumps(vector<int>& arr) {
+        int n = arr.size();
+        if (n == 1) return 0; // Already at the end
+        if (arr[0] == 0) return -1; // Can't move at all
+
+        int jumps = 0, currentEnd = 0, farthest = 0;
+
+        for (int i = 0; i < n - 1; i++) {
+            farthest = max(farthest, i + arr[i]); // Update farthest reachable index
+            if (i == currentEnd) { // Need a new jump
+                jumps++;
+                currentEnd = farthest; // Expand the range
+                if (currentEnd >= n - 1) break; // Reached or crossed the end
+            }
+        }
+
+        return (currentEnd >= n - 1) ? jumps : -1; // Check if the end is reachable
+    }
+};
+
+
+//Dp and greedy and appraoches 
+Greedy is more optimal than dp
+
+//DP approach is O(n^2) time complexity
