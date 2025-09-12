@@ -1,0 +1,29 @@
+class Solution
+{
+public:
+    void dfs(vector<vector<int>> adj, vector<int> &ls, int vis[], int node)
+    {
+        vis[node] = 1;
+        ls.push_back(node);
+
+        for (auto it : adj[node])
+        {
+            if (!vis[it])
+            {
+                dfs(adj, ls, vis, it);
+            }
+        }
+    }
+    vector<int> dfs(vector<vector<int>> &adj)
+    {
+        // Code here
+        int n = adj.size();
+        int vis[n] = {0};
+
+        int st = 0;
+        vector<int> ls;
+        dfs(adj, ls, vis, st);
+
+        return ls;
+    }
+};
