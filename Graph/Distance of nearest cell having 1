@@ -1,0 +1,87 @@
+class Solution {
+  public:
+  
+    // void bfs(int sr,int sc,vector<vector<int>>& grid,vector<vector<int>>& vis,vector<vector<int>>& dist)
+    // {
+    //     vis[sr][sc]=1;
+    //     dist[sr][sc]=0;
+        
+    //     queue<pair<pair<int,int>,int>>q;
+    //     q.push({{sr,sc},0});
+    //     int n=grid.size();
+    //     int m=grid[0].size();
+        
+    //     int drow[]={-1,0,1,0};
+    //     int dcol[]={0,1,0,-1};
+        
+        
+    //     while(!q.empty())
+    //     {
+    //         int r=q.front().first.first;
+    //         int c=q.front().first.second;
+    //         int d=q.front().second;
+    //         q.pop();
+            
+    //         for(int i=0;i<4;i++)
+    //         {
+    //             int nrow=r+drow[i];
+    //             int ncol=c+dcol[i];
+                
+    //             if(nrow>=0 && nrow<n && ncol>=0 && ncol<m &&
+    //             !vis[nrow][ncol] && grid[nrow][ncol]==0)
+    //             {
+    //                 vis[nrow][ncol]=1;
+    //                 dist[nrow][ncol]=d+1;
+    //                 q.push({{nrow,ncol},dist[nrow][ncol]});
+    //             }
+                
+    //         }
+            
+    //     }
+    // }
+    // Function to find distance of nearest 1 in the grid for each cell.
+    vector<vector<int>> nearest(vector<vector<int>>& grid) {
+        // Code here
+         int n = grid.size();
+    int m = grid[0].size();
+
+    vector<vector<int>> vis(n, vector<int>(m, 0));
+    vector<vector<int>> dist(n, vector<int>(m, 0));
+
+    queue<pair<pair<int, int>, int>> q;
+
+    // Push all 1's into the queue as starting points
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (grid[i][j] == 1) {
+                q.push({{i, j}, 0});
+                vis[i][j] = 1;
+            }
+        }
+    }
+
+    int drow[] = {-1, 0, 1, 0};
+    int dcol[] = {0, 1, 0, -1};
+
+    while (!q.empty()) {
+        int r = q.front().first.first;
+        int c = q.front().first.second;
+        int d = q.front().second;
+        q.pop();
+
+        dist[r][c] = d;
+
+        for (int i = 0; i < 4; i++) {
+            int nrow = r + drow[i];
+            int ncol = c + dcol[i];
+
+            if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && !vis[nrow][ncol]) {
+                vis[nrow][ncol] = 1;
+                q.push({{nrow, ncol}, d + 1});
+            }
+        }
+    }
+
+    return dist;
+}
+};
