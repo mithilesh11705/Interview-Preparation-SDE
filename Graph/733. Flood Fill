@@ -1,0 +1,50 @@
+class Solution {
+public:
+    void bfs(int sr,int sc,int ncolor,vector<vector<int>>& image,vector<vector<int>>& vis)
+{
+    vis[sr][sc]=1;
+    int incolor=image[sr][sc];
+    queue<pair<int,int>>q;
+    q.push({sr,sc});
+    int n=image.size();
+    int m=image[0].size();
+
+    image[sr][sc]=ncolor;
+  
+
+    int delr[]={-1,0,1,0};
+    int delc[]={0,1,0,-1};
+    while(!q.empty())
+    {
+        int r=q.front().first;
+        int c=q.front().second;
+        q.pop();
+
+        for(int i=0;i<4;i++)
+        {
+            int nrow=r+delr[i];
+            int ncol=c+delc[i];
+
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && 
+            !vis[nrow][ncol] && image[nrow][ncol]==incolor)
+            {
+                vis[nrow][ncol]=1;
+                image[nrow][ncol]=ncolor;
+                q.push({nrow,ncol});
+            }
+        }
+    }
+}
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int n=image.size();
+        int m=image[0].size();
+
+        vector<vector<int>>vis(n,vector<int>(m,0));
+
+        int ncolor=color;
+        bfs(sr,sc,ncolor,image,vis);
+
+        return image;
+    }
+};
+
