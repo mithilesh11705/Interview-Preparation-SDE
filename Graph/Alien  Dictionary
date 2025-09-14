@@ -1,0 +1,73 @@
+class Solution {
+  public:
+    string findOrder(vector<string> &words) {
+        // code here
+         unordered_map<char, unordered_set<char>> graph;
+    unordered_map<char, int> indegree;
+    unordered_set<char> unique_chars;
+    
+    // Step 1: Collect all unique characters
+    for (const string& word : words) {
+        for (char c : word) {
+            unique_chars.insert(c);
+        }
+    }
+    
+    for (char c : unique_chars) {
+        indegree[c] = 0;
+    }
+    
+    // Step 2: Build graph by comparing adjacent words
+    for (size_t i = 0; i < words.size() - 1; ++i) {
+        string word1 = words[i];
+        string word2 = words[i + 1];
+        int minLength = min(word1.size(), word2.size());
+        
+        // Edge case: prefix conflict
+        if (word1.size() > word2.size() && word1.substr(0, minLength) == word2.substr(0, minLength)) {
+            return "";
+        }
+        
+        for (int j = 0; j < minLength; ++j) {
+            if (word1[j] != word2[j]) {
+                if (graph[word1[j]].find(word2[j]) == graph[word1[j]].end()) {
+                    graph[word1[j]].insert(word2[j]);
+                    indegree[word2[j]]++;
+                }
+                break;  // Only first different character matters
+            }
+        }
+    }
+    
+    // Step 3: Topological Sort (Kahn's algorithm)
+    queue<char> q;
+    string order;
+    
+    for (char c : unique_chars) {
+        if (indegree[c] == 0) {
+            q.push(c);
+        }
+    }
+    
+    while (!q.empty()) {
+        char curr = q.front();
+        q.pop();
+        order += curr;
+        
+        for (char neighbor : graph[curr]) {
+            indegree[neighbor]--;
+            if (indegree[neighbor] == 0) {
+                q.push(neighbor);
+            }
+        }
+    }
+    
+    // If order contains all unique characters, return it
+    if (order.size() == unique_chars.size()) {
+        return order;
+    }
+    
+    return "";  // Cycle detected or inconsistent order
+}
+
+};
