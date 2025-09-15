@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int canBeTypedWords(string text, string brokenLetters) {
+        unordered_map<char,int>broken;
+        for(char it:brokenLetters)
+        {
+            broken[it]++;
+        }
+        
+        vector<string>words;
+        string k="";
+        for(char  it:text)
+        {
+            if(it==' ')
+            {
+                words.push_back(k);
+                 k="";
+            }
+            else
+            {
+                k+=it;
+            }
+        }
+        words.push_back(k);
+        // for(int i=0;i<words.size();i++)
+        // {
+        //     cout<<words[i]<<endl;
+        // }
+        int count=0;
+        for(string it:words )
+        {   int f=0;
+            for(char c:it)
+            {
+                if(broken.find(c)!=broken.end())
+                {
+                    f=1;
+                    break;
+                }
+            }
+            if(f==0) count++;
+        }
+        return count;
+    }
+};
