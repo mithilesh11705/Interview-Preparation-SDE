@@ -1,0 +1,28 @@
+#include <vector>
+#include <numeric>  
+
+using namespace std;
+
+class Solution {
+public:
+    int lcm(int a, int b) {
+        return (a / gcd(a, b)) * b;
+    }
+
+    vector<int> replaceNonCoprimes(vector<int>& nums) {
+        vector<int> st;
+        
+        for (int num : nums) {
+            while (!st.empty()) {
+                int g = gcd(st.back(), num);
+                if (g == 1) break;  
+                
+                num = lcm(st.back(), num);
+                st.pop_back();
+            }
+            st.push_back(num);
+        }
+        
+        return st;
+    }
+};
