@@ -1,0 +1,55 @@
+// User function Template for C++
+
+class Solution {
+  public:
+    int shortestPath(vector<vector<int>> &grid, pair<int, int> source,
+                     pair<int, int> destination) {
+        // code here
+        int n=grid.size();
+        int m=grid[0].size();
+        
+      vector<vector<int>> dist(n, vector<int>(m, 1e9));
+
+        
+        int drow[]={-1,0,1,0};
+        int dcol[]={0,1,0,-1};
+        
+        queue<pair<pair<int,int>,int>>q;
+        
+        auto i=source;
+        int l=i.first;
+        int p=i.second;
+        dist[l][p]=0;
+        q.push({{l,p},0});
+        
+        auto dst=destination;
+        int d1=dst.first;
+        int d2=dst.second;
+        
+        while(!q.empty()){
+                
+            auto it=q.front();
+            auto itn=it.first;
+            int rl=itn.first;
+            int rc=itn.second;
+            int wt=it.second;
+            q.pop();
+            
+            if(rl==d1 && rc==d2) return wt;
+            for(int i=0;i<4;i++){
+                int rnew=rl+drow[i];
+                int cnew=rc+dcol[i];
+                
+                if(rnew<n && rnew>=0 && cnew<m && cnew>=0 && grid[rnew][cnew]==1)
+                {
+                    if(wt+1<dist[rnew][cnew])
+                    {
+                        dist[rnew][cnew]=wt+1;
+                        q.push({{rnew,cnew},dist[rnew][cnew]});
+                    }
+                }
+            }
+        }
+        if(dist[d1][d2]==1e9) return -1;
+    }
+};
