@@ -1,0 +1,71 @@
+class Solution {
+public:
+    vector<int> shortestPath(int n, int m, vector<vector<int>>& edges) {
+        vector<vector<pair<int,int>>> adj(n+1);
+
+    
+        for(auto &edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int w = edge[2];
+
+            adj[u].push_back({v, w});
+            adj[v].push_back({u, w});
+        }
+
+ 
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+
+        vector<int> dist(n+1, INT_MAX);
+        vector<int> parent(n+1);
+
+        for(int i = 1; i <= n; i++) {
+            parent[i] = i;
+        }
+
+        dist[1] = 0;
+        pq.push({0, 1});
+
+        while(!pq.empty()) {
+            int d = pq.top().first;
+            int node = pq.top().second;
+            pq.pop();
+
+            for(auto &adjNode : adj[node]) {
+                int neighbor = adjNode.first;
+                int weight = adjNode.second;
+
+                if(d + weight < dist[neighbor]) {
+                    dist[neighbor] = d + weight;
+                    pq.push({dist[neighbor], neighbor});
+                    parent[neighbor] = node;
+                }
+            }
+        }
+
+        vector<int> res;
+
+        if(dist[n] == INT_MAX) {
+            return {-1};
+        }
+
+       
+        vector<int> path;
+        int current = n;
+        while(parent[current] != current) {
+            path.push_back(current);
+            current = parent[current];
+        }
+        path.push_back(1); 
+
+        reverse(path.begin(), path.end());
+
+       
+        res.push_back(dist[n]);
+        for(int node : path) {
+            res.push_back(node);
+        }
+
+        return res;
+    }
+};
