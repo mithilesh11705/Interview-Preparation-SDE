@@ -18,7 +18,7 @@ public:
         dist[src]=0;
         q.push({{0,src},0});
 
-        while(!q.empty())
+      while(!q.empty())
         {
             auto it=q.front();
             int stop=it.first.first;
@@ -26,13 +26,13 @@ public:
             int d=it.second;
             q.pop();
 
-            if(stop>k) break;
+            if(stop>K) continue;
             for(auto adjn:adj[node])
             {   
                 int k=adjn.first;
                 int w=adjn.second;
 
-                if(w+d<dist[k])
+                if(w+d<dist[k] &&  stop<=K)
                 {
                     dist[k]=w+d;
                     q.push({{stop+1,k},dist[k]});
