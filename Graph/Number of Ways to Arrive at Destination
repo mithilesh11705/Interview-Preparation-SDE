@@ -1,0 +1,49 @@
+// User function Template for C++
+
+class Solution {
+  public:
+    int countPaths(int n, vector<vector<int>>& roads) {
+        
+        const int MOD = 1e9 + 7;
+        vector<vector<pair<int,int>>> adj(n);
+
+        for (auto &edge : roads) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            adj[u].push_back({v, w});
+            adj[v].push_back({u, w});
+        }
+
+        // dist[i] = shortest distance from 0 to i
+        vector<long long> dist(n, 1e18);
+        // ways[i] = number of shortest paths from 0 to i
+        vector<long long> ways(n, 0);
+
+        dist[0] = 0;
+        ways[0] = 1;
+
+        priority_queue<pair<long long,int>, vector<pair<long long,int>>, greater<>> pq;
+        pq.push({0, 0});
+
+        while (!pq.empty()) {
+            auto [d, node] = pq.top();
+            pq.pop();
+
+            if (d > dist[node]) continue;
+
+            for (auto [nei, wt] : adj[node]) {
+                long long newDist = d + wt;
+
+                if (newDist < dist[nei]) {
+                    dist[nei] = newDist;
+                    ways[nei] = ways[node];  // inherit count
+                    pq.push({newDist, nei});
+                }
+                else if (newDist == dist[nei]) {
+                    ways[nei] = (ways[nei] + ways[node]) % MOD;
+                }
+            }
+        }
+
+        return ways[n-1] % MOD;
+    }
+};
