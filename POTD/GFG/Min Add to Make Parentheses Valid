@@ -1,0 +1,29 @@
+class Solution {
+  public:
+    int minParentheses(string& s) {
+        // code here
+        int n=s.size();
+        
+        int op=0;
+        int cl=0;
+        int res=0;
+        
+        for(char ch:s)
+        {
+            if(ch=='(')
+            {
+                op++;
+            }
+            else
+            {
+                if(op>0)
+                op--;
+                else
+                res++;
+            }
+        }
+        
+        return res+op;
+    }
+};
+        
