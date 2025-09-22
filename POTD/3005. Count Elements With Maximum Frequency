@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int maxFrequencyElements(vector<int>& nums) {
+       int n=nums.size();
+
+       unordered_map<int,int>mp;
+       for(auto it:nums)
+       {
+        mp[it]++;
+       } 
+
+        int mx=INT_MIN;
+        for(auto it:nums)
+        {
+            mx=max(mx,mp[it]);
+        }
+        cout<<mx<<endl;
+        int c=0;
+        for(auto it:mp)
+        {
+            if(it.second==mx)
+            c+=mx;
+            
+        }
+    return c;
+    }
+};
