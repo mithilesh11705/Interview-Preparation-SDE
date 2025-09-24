@@ -1,0 +1,47 @@
+class SpecialQueue {
+
+  public:
+    queue<int>q;
+    void enqueue(int x) {
+        // Insert element into the queue
+        q.push(x);
+        }
+
+    void dequeue() {
+        // Remove element from the queue
+        if (!q.empty()) q.pop();
+    }
+
+    int getFront() {
+        // Get front element
+       return q.front();
+    }
+
+    int getMin() {
+        // Get minimum element
+    int k = INT_MAX;
+    queue<int> temp;
+    while (!q.empty()) {
+        k = min(k, q.front());
+        temp.push(q.front());
+        q.pop();
+    }
+    q = temp; // restore original order
+    return k;
+        
+        
+    }
+
+    int getMax() {
+    int k = INT_MIN;
+    queue<int> temp;
+    while (!q.empty()) {
+        k = max(k, q.front());
+        temp.push(q.front());
+        q.pop();
+    }
+    q = temp; // restore original order
+    return k;
+        
+    }
+};
