@@ -1,0 +1,27 @@
+/*
+class Node {
+public:
+    int data;
+    Node *left, *right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
+class Solution {
+  public:
+  
+    bool help(Node* p,Node* q)
+    {
+        if(p==NULL || q==NULL)
+        return p==q;
+        
+        return (p->data==q->data) && help(p->left,q->right) && help(p->right,q->left);
+    }
+    bool isSymmetric(Node* root) {
+        // Code here
+        return help(root->left,root->right);
+    }
+};
