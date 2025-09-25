@@ -1,0 +1,70 @@
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if(root == NULL) return NULL;
+
+        vector<vector<Node*>> ans;
+        queue<Node*> q;
+        q.push(root);
+
+        while(!q.empty()) {
+            vector<Node*> res;
+            int n = q.size();
+            for(int i = 0; i < n; i++) {
+                Node* r = q.front();
+                q.pop(); 
+
+                if(r->left != NULL) q.push(r->left);
+                if(r->right != NULL) q.push(r->right);
+
+                res.push_back(r);
+            }
+            ans.push_back(res);
+        }
+
+        // Now connect level-wise
+        for(auto &level : ans) {
+            int n = level.size();
+            for(int i = 0; i < n; i++) {
+                if(i == n-1) level[i]->next = NULL;
+                else level[i]->next = level[i+1];
+            }
+        }
+        return root;
+    }
+};
+
+
+
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if(root == NULL) return NULL;
+
+        queue<Node*> q;
+        q.push(root);
+
+        while(!q.empty()) {
+            int n = q.size();
+            Node* prev = NULL;
+
+            for(int i = 0; i < n; i++) {
+                Node* curr = q.front();
+                q.pop();
+
+                // connect previous node in the same level
+                if(prev != NULL) {
+                    prev->next = curr;
+                }
+                prev = curr;
+
+                if(curr->left) q.push(curr->left);
+                if(curr->right) q.push(curr->right);
+            }
+            // last node of this level
+            prev->next = NULL;
+        }
+        return root;
+    }
+};
