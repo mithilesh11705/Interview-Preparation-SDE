@@ -1,0 +1,36 @@
+class Solution {
+  public:
+    vector<int> zigZagTraversal(Node* root) {
+        if(root == NULL) return {};
+        
+        vector<int> res;
+        queue<Node*> q;
+        q.push(root);
+        bool leftToRight = true;
+        
+        while(!q.empty()) {
+            int n = q.size();
+            vector<int> level(n);
+            
+            for(int i = 0; i < n; i++) {
+                Node* node = q.front();
+                q.pop();
+                
+                // place node->data depending on current direction
+                int index = leftToRight ? i : (n - i - 1);
+                level[index] = node->data;
+                
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+            }
+            
+            // append level to result
+            for(int val : level) res.push_back(val);
+            
+            // toggle direction
+            leftToRight = !leftToRight;
+        }
+        
+        return res;
+    }
+};
