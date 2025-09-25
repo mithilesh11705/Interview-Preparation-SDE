@@ -1,0 +1,31 @@
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+class Solution {
+  public:
+    int help(Node* node)
+    {
+         if(node==NULL)
+        return 0;
+        
+        int ln=help(node->left);
+        int rn=help(node->right);
+        
+        return 1+max(ln,rn);
+    }
+    int height(Node* node) {
+        // code here
+       
+        return help(node)-1;
+    }
+};
