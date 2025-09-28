@@ -1,0 +1,79 @@
+class Solution {
+  public:
+    vector<int> longestSubarray(vector<int>& arr, int x) {
+        // code here
+      int n = arr.size();
+        vector<int> ans;
+
+        int i = 0, j = 0;
+        int mx = 0, ai = 0, aj = 0;
+
+        int currentMin = arr[0], currentMax = arr[0];
+
+        while (j < n) {
+            currentMin = min(currentMin, arr[j]);
+            currentMax = max(currentMax, arr[j]);
+
+            if (currentMax - currentMin <= x) {
+                if (j - i + 1 > mx) {
+                    mx = j - i + 1;
+                    ai = i;
+                    aj = j;
+                }
+                j++;
+            } else {
+
+                i++;
+                currentMin = *min_element(arr.begin() + i, arr.begin() + j + 1);
+                currentMax = *max_element(arr.begin() + i, arr.begin() + j + 1);
+            }
+        }
+
+        for (int k = ai; k <= aj; k++) {
+            ans.push_back(arr[k]);
+        }
+        return ans;
+    }
+};
+
+
+
+
+
+
+
+//Using multiset to maintain the window's min and max in O(log k) time
+
+class Solution {
+public:
+    vector<int> longestSubarray(vector<int>& arr, int x) {
+        int n = arr.size();
+        int i = 0, j = 0;
+        int ai = 0, aj = 0, mx = 0;
+        multiset<int> window;
+
+        while (j < n) {
+            window.insert(arr[j]);
+
+            // shrink until valid
+            while (*window.rbegin() - *window.begin() > x) {
+                window.erase(window.find(arr[i]));
+                i++;
+            }
+
+            // update best
+            if (j - i + 1 > mx) {
+                mx = j - i + 1;
+                ai = i;
+                aj = j;
+            }
+            j++;
+        }
+
+        vector<int> ans;
+        for (int k = ai; k <= aj; k++) {
+            ans.push_back(arr[k]);
+        }
+        return ans;
+    }
+};
