@@ -1,0 +1,75 @@
+class Solution {
+public:
+    long long splitArray(vector<int>& nums) {
+        
+        int n=nums.size();
+        //preprocess the right half 
+        vector<bool>check(n,false);
+        check[n-1]=true;
+        for(int i=n-2;i>=0;i--)
+        {
+            if(nums[i]>nums[i+1])
+                check[i]=true;
+            else break;
+        }
+        
+        long long psum=0;
+        long long res=1e18;
+        long long sum=accumulate(nums.begin(),nums.end(),0ll);
+        
+        for(int i=0;i<n-1;i++)
+        {
+            psum+=nums[i];
+            if(i && nums[i]<=nums[i-1]) break;
+            if(check[i+1]==false) continue;
+            
+            res=min(res,abs(sum-(2*psum)));
+        }
+        
+        if(res==1e18) return -1;
+        return res;
+    }
+};
+
+
+📝 Approach in your code
+
+Right-half preprocessing
+
+Build a check[] array from the end.
+
+check[i] = true if the subarray nums[i..n-1] is strictly decreasing.
+
+Done by checking each element against the next while moving leftward.
+
+Prefix traversal
+
+Maintain a running prefix sum psum.
+
+While traversing, ensure the prefix nums[0..i] is strictly increasing.
+
+If at any point nums[i] > nums[i+1], stop (prefix not valid anymore).
+
+Valid split check
+
+At each split point i, if check[i+1] == true (meaning the right side is strictly decreasing), then both conditions hold.
+
+Compute sums:
+
+Left sum = psum
+
+Right sum = totalSum - psum
+
+Update result with abs(leftSum - rightSum).
+
+Answer
+
+Keep the minimum difference seen.
+
+If no valid split exists → return -1.
+
+⏱ Complexity
+
+Time: O(n) → one pass to build suffix, one pass to check prefix.
+
+Space: O(n) for the check[] array.
