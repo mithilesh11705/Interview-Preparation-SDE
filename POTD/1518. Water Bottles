@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int numWaterBottles(int numBottles, int numExchange) {
+        
+        if(numBottles<numExchange) return numBottles;
+
+        int ans=numBottles;
+        int b=numBottles;
+        int ex=numExchange; 
+        while (b >= ex) {
+            int m=(b / ex);
+             ans +=m;
+             int rem=b-(ex*m);
+            b=m+rem;
+         }
+
+        return ans;
+    }
+};
+
+Easy
