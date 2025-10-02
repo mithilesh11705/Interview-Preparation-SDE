@@ -1,0 +1,28 @@
+class Solution {
+public:
+    void help(int n, int k, int i, int sum, vector<vector<int>>& res, vector<int>& ans) {
+        if(ans.size() == k) {
+            if(sum == n) res.push_back(ans);
+            return;
+        }
+        if(i > 9) return;
+
+       
+        if(sum + i <= n) {  
+            ans.push_back(i);
+            help(n, k, i+1, sum+i, res, ans);
+            ans.pop_back();
+        }
+
+       
+        help(n, k, i+1, sum, res, ans);
+    }
+
+    vector<vector<int>> combinationSum(int n, int k) {
+        vector<vector<int>> res;
+        vector<int> ans;
+        help(n, k, 1, 0, res, ans);
+        return res;
+    }
+};
+

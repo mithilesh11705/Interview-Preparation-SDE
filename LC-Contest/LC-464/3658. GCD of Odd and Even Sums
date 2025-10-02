@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int gcd(int m,int n)
+    {
+        if(n==0){
+            return m;
+        }
+        return gcd(n, m % n);  
+    }
+    
+    int gcdOfOddEvenSums(int n) {
+        int eves=0,odds=0;
+        int i=2,j=1;
+        while(n>0)
+            {
+                eves+=i;
+                odds+=j;
+                i+=2;
+                j+=2;
+                n--;
+            }
+       
+        return gcd(odds,eves);
+    }
+};
+
