@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int maxArea(vector<int>& arr) {
+        int l = 0, r = arr.size() - 1;
+        int ans = 0;
+        while (l < r) {
+            int h = min(arr[l], arr[r]);
+            ans = max(ans, h * (r - l));
+            if (arr[l] < arr[r]) l++;
+            else r--;
+        }
+        return ans;
+    }
+};
+
