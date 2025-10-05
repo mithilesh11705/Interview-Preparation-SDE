@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int m, n;
+    vector<vector<int>> directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+    void dfs(int i, int j, vector<vector<int>>& heights, vector<vector<bool>>& vis) {
+        vis[i][j] = true;
+
+        for (auto it : directions) {
+            int x = i + it[0];
+            int y = j + it[1];
+
+            if (x >= 0 && x < m && y >= 0 && y < n 
+                && heights[x][y] >= heights[i][j] 
+                && !vis[x][y]) {
+                dfs(x, y, heights, vis);
+            }
+        }
+    }
+
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        m = heights.size();
+        n = heights[0].size();
+
+        vector<vector<bool>> pac(m, vector<bool>(n, false));
+        vector<vector<bool>> atl(m, vector<bool>(n, false));
+
+ 
+        for (int j = 0; j < n; j++) dfs(0, j, heights, pac);
+        for (int i = 0; i < m; i++) dfs(i, 0, heights, pac);
+
+      
+        for (int i = 0; i < m; i++) dfs(i, n - 1, heights, atl);
+        for (int j = 0; j < n; j++) dfs(m - 1, j, heights, atl);
+
+
+        vector<vector<int>> res;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (pac[i][j] && atl[i][j])
+                    res.push_back({i, j});
+            }
+        }
+        return res;
+    }
+};
