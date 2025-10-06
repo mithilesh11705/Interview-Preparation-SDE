@@ -1,0 +1,13 @@
+class Solution {
+  public:
+    vector<int> getMinMax(vector<int> &arr) {
+        // code here
+        vector<int>ans;
+        int mx=*max_element(arr.begin(),arr.end());
+        int mn=*min_element(arr.begin(),arr.end());
+        
+        ans.push_back(mn);
+        ans.push_back(mx);
+        return ans;
+    }
+};

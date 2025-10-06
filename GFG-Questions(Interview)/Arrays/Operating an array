@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    bool searchEle(vector<int>& arr, int x) {
+        for(int it : arr) {
+            if(it == x) return true;
+        }
+        return false;
+    }
+
+    void insertEle(vector<int>& arr, int y, int yi) {
+        int n = arr.size();
+        if(yi <= n) {
+            arr.insert(arr.begin() + yi, y);
+        }
+    }
+
+    void deleteEle(vector<int>& arr, int z) {
+        for(int i = 0; i < arr.size(); i++) {
+            if(arr[i] == z) {
+                arr.erase(arr.begin() + i);
+                break;
+            }
+        }
+    }
+};

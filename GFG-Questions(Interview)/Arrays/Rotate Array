@@ -1,0 +1,37 @@
+class Solution {
+  public:
+    void rotateArr(vector<int>& arr, int d) {
+        int n = arr.size();
+        d = d % n;  
+
+    
+        reverse(arr.begin(), arr.begin() + d);
+
+        reverse(arr.begin() + d, arr.end());
+
+        reverse(arr.begin(), arr.end());
+        
+        return;
+    }
+};
+ // Anticlockwise rotation by d elements
+ 🧠 Concept
+
+To rotate an array counter-clockwise by d, you can use the reversal algorithm.
+
+Steps:
+
+Reverse the first d elements.
+Reverse the remaining n - d elements.
+Reverse the entire array.
+
+
+🧠 Concept
+
+To rotate clockwise by d positions (i.e., right rotation):
+
+Reverse the entire array.
+Reverse the first d elements.
+Reverse the remaining n - d elements.
+
+This works symmetrically to the counter-clockwise version.
