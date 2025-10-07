@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> avoidFlood(vector<int>& rains) {
+        int n = rains.size();
+        vector<int> ans(n, 1);
+        unordered_map<int, int> next; 
+        unordered_map<int, bool> full; 
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+
+
+        unordered_map<int, queue<int>> nextDays;
+        for (int i = 0; i < n; ++i)
+            if (rains[i] > 0)
+                nextDays[rains[i]].push(i);
+
+  
+        for (int i = 0; i < n; ++i) {
+            if (rains[i] > 0) {
+                int lake = rains[i];
+                if (full[lake]) return {}; 
+
+                full[lake] = true;
+                nextDays[lake].pop(); 
+
+          
+                if (!nextDays[lake].empty())
+                    pq.push({nextDays[lake].front(), lake});
+
+                ans[i] = -1; 
+            } 
+            else { 
+        
+                if (!pq.empty()) {
+                    auto [day, lake] = pq.top();
+                    pq.pop();
+                    ans[i] = lake;
+                    full[lake] = false;
+                } 
+                else {
+                    ans[i] = 1; 
+                }
+            }
+        }
+
+        return ans;
+    }
+};
