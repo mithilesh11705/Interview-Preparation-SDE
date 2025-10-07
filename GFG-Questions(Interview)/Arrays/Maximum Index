@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    int maxIndexDiff(vector<int>& arr) {
+        // code here
+        int n = arr.size();
+        vector<int> leftMin(n), rightMax(n);
+        
+        leftMin[0] = arr[0];
+        for(int i = 1; i < n; i++){
+            leftMin[i] = min(arr[i], leftMin[i - 1]);
+        }
+        rightMax[n - 1] = arr[n - 1];
+        for(int i = n - 2; i > -1; i--){
+            rightMax[i] = max(arr[i], rightMax[i + 1]);
+        }
+        int left = 0, right = 0, ans = -1;
+        while(left < n && right < n){
+            if(leftMin[left] <= rightMax[right]){
+                ans = max(ans, right - left);
+                right++;   
+            }
+            else
+                left++;
+        }
+        return ans;
+    }
+};
