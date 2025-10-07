@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    int minDist(vector<int>& arr, int x, int y) {
+        // code here
+        int n=arr.size();
+       int x_index=-1;
+       int y_index=-1;
+       int result=INT_MAX;
+       for(int i=0; i<n; i++){
+           if(arr[i]==x){
+              x_index=i;
+           }
+           if(arr[i]==y){
+               y_index=i;
+           }
+           if(x_index!=-1&&y_index!=-1){
+               result=min(result,abs(x_index-y_index));
+           }
+       }
+       if(result==INT_MAX){
+               return -1;
+           }
+       return result;
+    }
+};
