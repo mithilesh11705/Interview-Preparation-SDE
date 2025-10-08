@@ -1,0 +1,45 @@
+/*
+class Node {
+public:
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int x) {
+        data = x;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+  
+    int i = 0;
+    
+    Node* build(vector<int>& pre, vector<int>& post, int l, int r, int n) {
+        if (i >= n || l > r) return NULL;
+        
+        Node* root = new Node(pre[i++]);
+        
+        if (l == r || i >= n) return root;
+        
+      
+        int idx = l;
+        while (idx <= r && post[idx] != pre[i]) idx++;
+        
+        if (idx <= r) {
+            root->left = build(pre, post, l, idx, n);
+            root->right = build(pre, post, idx + 1, r - 1, n);
+        }
+        
+        return root;
+    }
+    
+    Node* constructTree(vector<int> &pre, vector<int> &post) {
+        int n = pre.size();
+        i = 0;
+        return build(pre, post, 0, n - 1, n);
+    }
+};
