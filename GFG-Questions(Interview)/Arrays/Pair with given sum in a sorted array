@@ -1,0 +1,40 @@
+
+class Solution {
+  public:
+  long long factorial(int n) {
+    if (n == 0) {
+        return 1; // Base case: factorial of 0 is 1
+    }
+    return n * factorial(n - 1); // Recursive step
+}
+    int countPairs(vector<int> &arr, int target) {
+        // Complete the function
+        
+       int n = arr.size();
+        if (n == 0) return 0;
+
+        unordered_map<int, int> freq;
+        for (int val : arr) freq[val]++;
+
+        long long count = 0;
+
+        for (auto &p : freq) {
+            int num = p.first;
+            int complement = target - num;
+
+            if (freq.find(complement) != freq.end()) {
+                if (num == complement) {
+               
+                    count += (1LL * freq[num] * (freq[num] - 1)) / 2;
+                } else {
+                    count += 1LL * freq[num] * freq[complement];
+                }
+             
+                freq[complement] = 0;
+                freq[num] = 0;
+            }
+        }
+
+        return (int)count;
+    }
+};
