@@ -1,0 +1,40 @@
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+  int solve(Node *root,bool flag,map<pair<Node*,bool>,int>&mp)
+    {
+        if(!root) return 0;
+        if(mp.find({root,flag})!=mp.end()) return mp[{root,flag}];
+        int taken=0;
+        int skip=0;
+        int takenskip=-1;
+        if(flag)
+        {
+            takenskip=(solve(root->left,true,mp)+solve(root->right,true,mp));
+            taken = max((root->data + solve(root->left,false,mp)+
+            solve(root->right,false,mp)),takenskip);
+        }
+        else 
+        skip = takenskip !=-1 ? takenskip: (solve(root->left,true,mp)+solve(root->right,true,mp));
+        return mp[{root,flag}] =  max(taken,skip);
+        
+    }
+    int getMaxSum(Node *root) {
+        // code here
+        map<pair<Node*,bool>,int>mp;
+        return solve(root,true,mp);
+    }
+};
