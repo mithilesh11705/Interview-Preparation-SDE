@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int minOperations(vector<int>& arr) {
+        double total = 0;
+        for (int x : arr) total += x;
+
+        double target = total / 2.0;
+        priority_queue<double> pq(arr.begin(), arr.end());
+
+        double currSum = total;
+        int count = 0;
+
+        while (currSum > target) {
+            double top = pq.top();
+            pq.pop();
+            double half = top / 2.0;
+            currSum -= half;
+            pq.push(half);
+            count++;
+        }
+
+        return count;
+    }
+};
