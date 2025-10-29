@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int maxs=INT_MIN,currs=0;
+        int n=nums.size();
+        for(int i=0;i<n;i++)
+        {
+            currs+=nums[i];
+            maxs=max(currs,maxs);
+            if(currs<0)
+            currs=0;
+        }
+
+        return maxs;
+    }
+};
+
+//Kadane Algorithm

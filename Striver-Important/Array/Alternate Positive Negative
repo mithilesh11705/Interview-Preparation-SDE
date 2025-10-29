@@ -1,0 +1,41 @@
+class Solution {
+  public:
+    void rearrange(vector<int> &arr) {
+        // code here
+        vector<int>pos,neg;
+        int n=arr.size();
+        for(int i=0;i<n;i++)
+        {
+            if(arr[i]>=0)
+            {
+                pos.push_back(arr[i]);
+            }
+            else
+            {
+                neg.push_back(arr[i]);
+            }
+        }
+        
+        int n1=pos.size();
+        int n2=neg.size();
+        
+        int mn=min(n1,n2);
+        int k=0;
+        for(int i=0;i<mn;i++)
+        {
+            arr[k++]=pos[i];
+            arr[k++]=neg[i];
+        }
+        
+        for(int i=mn;i<n1;i++)
+        {
+            arr[k++]=pos[i];
+        }
+        for(int i=mn;i<n2;i++)
+        {
+            arr[k++]=neg[i];
+        }
+        
+        return;
+    }
+};
