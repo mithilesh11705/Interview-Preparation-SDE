@@ -1,0 +1,60 @@
+class Solution {
+public:
+    int diameter(int V, vector<vector<int>>& edges) {
+        // Create adjacency list
+        vector<vector<int>> adj(V);
+        for (auto e : edges) {
+            int u = e[0];
+            int v = e[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+       
+        vector<int> vis(V, 0), dist(V, 0);
+        queue<int> q;
+        q.push(0);
+        vis[0] = 1;
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            for (auto e : adj[node]) {
+                if (!vis[e]) {
+                    vis[e] = 1;
+                    dist[e] = dist[node] + 1;
+                    q.push(e);
+                }
+            }
+        }
+
+        int farthest = 0;
+        for (int i = 0; i < V; i++) {
+            if (dist[i] > dist[farthest])
+                farthest = i;
+        }
+
+        
+        vector<int> vis2(V, 0), dist2(V, 0);
+        queue<int> q2;
+        q2.push(farthest);
+        vis2[farthest] = 1;
+
+        while (!q2.empty()) {
+            int node = q2.front();
+            q2.pop();
+
+            for (auto e : adj[node]) {
+                if (!vis2[e]) {
+                    vis2[e] = 1;
+                    dist2[e] = dist2[node] + 1;
+                    q2.push(e);
+                }
+            }
+        }
+
+        int diameter = *max_element(dist2.begin(), dist2.end());
+        return diameter;
+    }
+};
