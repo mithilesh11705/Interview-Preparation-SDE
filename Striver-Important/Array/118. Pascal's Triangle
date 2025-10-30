@@ -1,0 +1,31 @@
+class Solution {
+public:
+    
+    vector<int> help(int n)
+    {
+        vector<int>ansr;
+        int res=1;
+        ansr.push_back(1);
+
+        for(int i=1;i<n;i++)
+        {
+            res=res*(n-i);
+            res=res/i;
+            ansr.push_back(res);
+        }
+
+        return ansr;
+    }
+
+    
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>>ans;
+
+        for(int i=1;i<=numRows;i++)
+        {
+            ans.push_back(help(i));
+        }
+
+        return ans;
+    }
+};
