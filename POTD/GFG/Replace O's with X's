@@ -1,0 +1,77 @@
+class Solution {
+  public:
+    void fill(vector<vector<char>>& grid) {
+        // Code here
+        int n=grid.size();
+        int m=grid[0].size();
+        
+        
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        queue<pair<int,int>>q;
+        
+        for(int i=0;i<m;i++)
+        {
+            if(grid[0][i]=='O')
+            {
+                vis[0][i]=1;
+            q.push({0,i});
+            }
+            
+            if(grid[n-1][i]=='O')
+            {
+            q.push({n-1,i});
+            vis[n-1][i]=1;
+            }
+        }
+        
+          for(int i=0;i<n;i++)
+        {
+            if(grid[i][0]=='O'){
+            q.push({i,0});
+            vis[i][0]=1;
+            }
+            
+            if(grid[i][m-1]=='O'){
+            q.push({i,m-1});
+            vis[i][m-1]=1;
+            }
+        }
+        
+        
+        int dr[]={-1,0,1,0};
+        int dc[]={0,1,0,-1};
+        
+        while(!q.empty())
+        {
+            int r=q.front().first;
+            int c=q.front().second;
+            
+            q.pop();
+            
+            for(int i=0;i<4;i++)
+            {
+                int nr=dr[i]+r;
+                int nc=dc[i]+c;
+                
+                if(nr>=0 && nr<n && nc>=0 && nc<m && !vis[nr][nc] && grid[nr][nc]=='O')
+                {
+                    vis[nr][nc]=1;
+                    q.push({nr,nc});
+                }
+            }
+        }
+        
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(vis[i][j]==0  && grid[i][j]=='O')
+                grid[i][j]='X';
+            }
+        }
+        
+        
+        return;
+    }
+};  
