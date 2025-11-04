@@ -1,0 +1,44 @@
+class Solution {
+  public:
+  
+    bool help(vector<int>& stalls,int k,int mid)
+    {
+        int cnt=1;
+            
+            int last=stalls[0];
+        for(int i=1;i<stalls.size();i++)
+        {
+            
+            if(stalls[i]-last>=mid)
+            {
+                cnt++;
+                last=stalls[i];
+            }
+        }
+        return cnt>=k;
+    }
+    int aggressiveCows(vector<int> &stalls, int k) {
+        // code here
+        
+        int n=stalls.size();
+        sort(stalls.begin(),stalls.end());
+        int st=0;
+        int end=stalls.back()-stalls.front();
+        int ans=st;
+        while(st<=end)
+        {
+            
+            int mid=st+(end-st)/2;
+            
+            if(help(stalls,k,mid))
+            {
+                ans=mid;
+                st=mid+1;
+            }
+            else
+            end=mid-1;
+            
+        }
+        return ans;
+    }
+};

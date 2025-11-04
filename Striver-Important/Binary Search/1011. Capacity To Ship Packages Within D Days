@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool help(int mid, const vector<int>& w, int d) {
+        int days = 1, load = 0;
+        for (int i = 0; i < w.size(); i++) {
+            if (w[i] > mid) return false;
+            if (load + w[i] > mid) {
+                days++;
+                load = w[i];
+            } else {
+                load += w[i];
+            }
+        }
+        return days <= d;
+    }
+
+    int shipWithinDays(vector<int>& w, int days) {
+        int st = *max_element(w.begin(), w.end());
+        int end = accumulate(w.begin(), w.end(), 0);
+        int ans = end;
+
+        while (st <= end) {
+            int mid = st + (end - st) / 2;
+            if (help(mid, w, days)) {
+                ans = mid;
+                end = mid - 1;
+            } else {
+                st = mid + 1;
+            }
+        }
+        return ans;
+    }
+};

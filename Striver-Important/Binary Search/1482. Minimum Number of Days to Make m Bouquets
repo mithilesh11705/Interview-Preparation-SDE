@@ -1,0 +1,41 @@
+class Solution {
+public:
+    bool help(int mid, const vector<int>& bd, int m, int k) {
+        int cnt = 0;
+        int bouquets = 0;
+        for (int i = 0; i < bd.size(); i++) {
+            if (bd[i] <= mid) {
+                cnt++;
+                if (cnt == k) {
+                    bouquets++;
+                    cnt = 0;
+                }
+            } else {
+                cnt = 0;
+            }
+        }
+        return bouquets >= m;
+    }
+
+    int minDays(vector<int>& bd, int m, int k) {
+        int n = bd.size();
+        if (n < (m * k)) return -1;
+
+        int st = *min_element(bd.begin(), bd.end());
+        int end = *max_element(bd.begin(), bd.end());
+        int ans = INT_MAX;
+
+        while (st <= end) {
+            int mid = st + (end - st) / 2;
+
+            if (help(mid, bd, m, k)) {
+                ans = mid;
+                end = mid - 1;
+            } else {
+                st = mid + 1;
+            }
+        }
+
+        return ans == INT_MAX ? -1 : ans;
+    }
+};
