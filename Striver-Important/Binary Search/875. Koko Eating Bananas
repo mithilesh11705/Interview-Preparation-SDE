@@ -1,0 +1,34 @@
+class Solution {
+public:
+    double total(vector<int>piles,int m)
+    {
+        double t=0;
+        for(int i=0;i<piles.size();i++)
+        {
+            t+=ceil((double )piles[i]/m);
+        }
+        return t;
+    }
+    int minEatingSpeed(vector<int>& piles, int h) {
+        
+        int n=piles.size();
+        int end=*max_element(piles.begin(),piles.end());
+        int st=1;
+        int ans=end;
+        while(st<=end)
+        {
+            int m=st+(end-st)/2;
+          double t=total(piles,m);
+            
+            if(t<=h)
+            {
+                ans=min(ans,m);
+                end=m-1;
+            }
+            else
+            st=m+1;
+        }
+        return ans;
+
+    }
+};

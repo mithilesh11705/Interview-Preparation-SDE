@@ -1,0 +1,24 @@
+class Solution {
+  public:
+    int minCost(vector<int>& height) {
+        // Code here
+        
+        
+        int n=height.size();
+        
+        vector<int>dp(n+1,INT_MIN);
+        
+        dp[0]=0;
+        dp[1]=abs(height[1]-height[0]);
+        
+        for(int i=2;i<n;i++){
+         
+         int f1=dp[i-1]+abs(height[i]-height[i-1]);
+         int f2=dp[i-2]+abs(height[i]-height[i-2]);
+         
+         dp[i]=min(f1,f2);
+        }
+        
+        return dp[n-1];
+    }
+};
