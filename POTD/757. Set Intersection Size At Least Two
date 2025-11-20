@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int intersectionSizeTwo(vector<vector<int>>& intervals) {
+
+        sort(intervals.begin(), intervals.end(), [](auto &a, auto &b){
+            if (a[1] == b[1]) return a[0] > b[0];
+            return a[1] < b[1];
+        });
+
+
+        int a = -1, b = -1;
+        vector<int> S;
+        for (auto  &it : intervals) {
+            int L = it[0];
+            int R = it[1];
+
+            bool a_in = (a >= L);
+            bool b_in = (b >= L);
+            if (a_in && b_in)
+                continue;
+
+            else if (a_in || b_in) {
+
+                int newPoint = R;
+                S.push_back(newPoint);
+
+                if (!b_in)
+                    b = newPoint;
+                else
+                    a = newPoint;
+            } else {
+
+                S.push_back(R - 1);
+                S.push_back(R);
+
+                a = R - 1;
+                b = R;
+            }
+        }
+        return S.size();
+    }
+};
