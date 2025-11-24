@@ -1,0 +1,35 @@
+// class Solution {
+// public:
+//     vector<bool> prefixesDivBy5(vector<int>& nums) {
+//         vector<bool> ans;
+//         int rem = 0;
+
+//         for (int bit : nums) {
+//             rem = (rem * 2 + bit) % 5;
+//             ans.push_back(rem == 0);
+//         }
+//         return ans;
+//     }
+// };
+class Solution {
+public:
+    vector<bool> prefixesDivBy5(vector<int>& nums) {
+
+        vector<bool> ans;
+        string s = "";
+
+        for (int i : nums) {
+
+            s += (i + '0');
+            long long d = stoll(s, nullptr, 2);
+
+            if (d % 5 == 0) 
+                ans.push_back(true);
+            else 
+                ans.push_back(false);
+        }
+
+        return ans;
+    }
+};
+
