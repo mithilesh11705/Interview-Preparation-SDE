@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int minMutation(string start, string end, vector<string>& bank) {
+        
+        unordered_set<string> bs(bank.begin(), bank.end());
+        unordered_set<string> vis;
+        queue<string> q;
+
+        q.push(start);
+        vis.insert(start);
+
+        int level = 0;
+
+        while (!q.empty()) {
+            int sz = q.size();
+
+            while (sz--) {
+                string curr = q.front();
+                q.pop();
+
+                if (curr == end)
+                    return level;
+
+                for (char ch : "ACGT") {
+                    for (int i = 0; i < curr.length(); i++) {
+                        
+                        if (curr[i] == ch) continue;  
+
+                        string next = curr;
+                        next[i] = ch;
+
+                        if (vis.find(next) == vis.end() && bs.find(next) != bs.end()) {
+                            vis.insert(next);
+                            q.push(next);
+                        }
+                    }
+                }
+            }
+            level++;
+        }
+
+        return -1;
+    }
+};
